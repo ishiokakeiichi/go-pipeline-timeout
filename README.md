@@ -18,7 +18,7 @@ stout, sterr , code , err := Exec("cat /etc/passwd|egrep ^root")
 ```
 
 ### Thanks
-このモジュールは　[mattn/go-shellwords](https://raw.githubusercontent.com/mattn/go-shellwords) を使用しています。   
+このモジュールは　[mattn/go-shellwords](https://github.com/mattn/go-shellwords) を使用しています。   
 
 ### Author
 keiichi ishioka
