@@ -11,9 +11,7 @@ import (
 "unsafe"
 )
 
-// timeout 処理用
 type Timeout time.Duration
-//標準入力処理用
 type Stdin string
 type ParseEnv bool
 type execOptions struct {
@@ -22,9 +20,6 @@ type execOptions struct {
 	parseEnv bool
 }
 
-//
-//  コマンドのステータスコードのセット
-//
 func setExecCode(err error, status *int){
 	if e2, ok := err.(*exec.ExitError); ok{
 		if s, ok := e2.Sys().(syscall.WaitStatus); ok {
@@ -34,11 +29,8 @@ func setExecCode(err error, status *int){
 	}
 }
 
-//
-//  コマンドの実行
-//
 func timeoutCommand(commands [][]string, timeout time.Duration, stdin string)(string, string, int, error){
-	var status = -1 // デフォルトの返却ステータス
+	var status = -1
 	var err error
 
 	start := time.Now()
@@ -115,12 +107,9 @@ func timeoutCommand(commands [][]string, timeout time.Duration, stdin string)(st
 	return *(*string)(unsafe.Pointer(&out)), *(*string)(unsafe.Pointer(&eout)), 0, err
 }
 
-
 func Exec(commandline string, options ...interface{})(string, string, int, error){
-	// コマンドに "&" 禁止 TODO
+	// "&"　未対応　TODO
 
-	// 引数に shellPipe.Timeout(int)が指定された場合
-	// execOpt.timeout に timeout時間を指定する
 	execOpt := execOptions{}
 	execOpt.timeout = time.Duration(0 * time.Second)
 	execOpt.stdin   = ""
@@ -151,8 +140,6 @@ func Exec(commandline string, options ...interface{})(string, string, int, error
 		commands[i] = args
 	}
 
-
 	return timeoutCommand(commands, execOpt.timeout, execOpt.stdin)
-
 
 }
